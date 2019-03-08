@@ -14,15 +14,16 @@ namespace SnakeGame
         IntPair feed = new IntPair(0, 0);
         IntPair direction = new IntPair(1, 0);
         List<IntPair> snake = new List<IntPair> { new IntPair(0, 0), new IntPair(0, 0), new IntPair(0, 0) };
+        public ConsoleKeyInfo Input { get; private set; }
                 
-        //入力を待ち受けてdirectionを書き換える
-        public void ChangeDirection()
+        //蛇の進行方向&リスタート時のキー入力待ち受け
+        public void CatchInput()
         {
-            ConsoleKeyInfo input = Console.ReadKey(true);
+            Input = Console.ReadKey(true);
             
-            if (head.x - snake[1].x == 0)   //今の方向によって受け付ける入力を切り替える
+            if (head.X - snake[1].X == 0)   //今の方向によって受け付ける入力を切り替える
             {
-                switch (input.Key)
+                switch (Input.Key)
                 {
                     case ConsoleKey.RightArrow:
                         direction.Set(1, 0);
@@ -33,9 +34,9 @@ namespace SnakeGame
                     default: break;
                 }
             }
-            else if(head.y - snake[1].y == 0)
+            else if(head.Y - snake[1].Y == 0)
             {
-                switch (input.Key)
+                switch (Input.Key)
                 {
                     case ConsoleKey.UpArrow:
                         direction.Set(0, -1);
@@ -65,13 +66,13 @@ namespace SnakeGame
 
         public List<IntPair> MoveSnake()
         {
-            head.Sum(direction.x, direction.y);
+            head.Sum(direction.X, direction.Y);
 
             if (head.Equals(feed))
             {
                 SetFeed();
                 Program.SpeedUp();
-                AddBody(snake[snake.Count() - 1].x, snake[snake.Count() - 1].y);
+                AddBody(snake[snake.Count() - 1].X, snake[snake.Count() - 1].Y);
             }
 
             for (int i = snake.Count() - 1; i > 0; i--)

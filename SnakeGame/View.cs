@@ -43,11 +43,11 @@ namespace SnakeGame
         {
             try
             {
-                grid.SetValue(1, snake[0].y, snake[0].x);
-                grid.SetValue(0, snake[snake.Count() - 1].y, snake[snake.Count() - 1].x);
+                grid.SetValue(1, snake[0].Y, snake[0].X);
+                grid.SetValue(0, snake[snake.Count() - 1].Y, snake[snake.Count() - 1].X);
                 if(snake.Count() == Program.maxSize)
                 {
-                    grid.SetValue(3, feed.y, feed.x);
+                    grid.SetValue(3, feed.Y, feed.X);
                 }
                 else if(snake.Count() > Program.maxSize)
                 {
@@ -55,7 +55,7 @@ namespace SnakeGame
                 }
                 else
                 {
-                    grid.SetValue(2, feed.y, feed.x);
+                    grid.SetValue(2, feed.Y, feed.X);
                 }
             }
             catch (IndexOutOfRangeException)
@@ -96,9 +96,9 @@ namespace SnakeGame
 
         public void ToStart(List<IntPair> snake, IntPair feed)
         {
-            grid.SetValue(1, snake[0].y, snake[0].x);
-            grid.SetValue(1, snake[1].y, snake[1].x);
-            grid.SetValue(2, feed.y, feed.x);
+            grid.SetValue(1, snake[0].Y, snake[0].X);
+            grid.SetValue(1, snake[1].Y, snake[1].X);
+            grid.SetValue(2, feed.Y, feed.X);
         }
     }
 }
