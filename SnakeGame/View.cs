@@ -39,7 +39,7 @@ namespace SnakeGame
         }
         
         //座標をもらって表示データ更新&当たり判定
-        public int UpdateGrid(List<IntPair> snake, IntPair feed)
+        public Program.Status UpdateGrid(List<IntPair> snake, IntPair feed)
         {
             try
             {
@@ -51,7 +51,7 @@ namespace SnakeGame
                 }
                 else if(snake.Count() > Program.maxSize)
                 {
-                    return 3;
+                    return Program.Status.Clear;
                 }
                 else
                 {
@@ -60,15 +60,15 @@ namespace SnakeGame
             }
             catch (IndexOutOfRangeException)
             {
-                return 2;
+                return Program.Status.GameOver;
             }
 
             if (snake.LastIndexOf(snake[0]) != 0)
             {
-                return 2;
+                return Program.Status.GameOver;
             }
 
-            return 1;
+            return Program.Status.Playing;
         }
 
         public void Title()
