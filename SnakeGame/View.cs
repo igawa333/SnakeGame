@@ -39,36 +39,36 @@ namespace SnakeGame
         }
         
         //座標をもらって表示データ更新&当たり判定
-        public int UpdateGrid(List<IntPair> snake, IntPair feed)
+        public Program.Status UpdateGrid(List<IntPair> snake, IntPair feed)
         {
             try
             {
-                grid.SetValue(1, snake[0].y, snake[0].x);
-                grid.SetValue(0, snake[snake.Count() - 1].y, snake[snake.Count() - 1].x);
+                grid.SetValue(1, snake[0].Y, snake[0].X);
+                grid.SetValue(0, snake[snake.Count() - 1].Y, snake[snake.Count() - 1].X);
                 if(snake.Count() == Program.maxSize)
                 {
-                    grid.SetValue(3, feed.y, feed.x);
+                    grid.SetValue(3, feed.Y, feed.X);
                 }
                 else if(snake.Count() > Program.maxSize)
                 {
-                    return 3;
+                    return Program.Status.Clear;
                 }
                 else
                 {
-                    grid.SetValue(2, feed.y, feed.x);
+                    grid.SetValue(2, feed.Y, feed.X);
                 }
             }
             catch (IndexOutOfRangeException)
             {
-                return 2;
+                return Program.Status.GameOver;
             }
 
             if (snake.LastIndexOf(snake[0]) != 0)
             {
-                return 2;
+                return Program.Status.GameOver;
             }
 
-            return 1;
+            return Program.Status.Playing;
         }
 
         public void Title()
@@ -96,9 +96,9 @@ namespace SnakeGame
 
         public void ToStart(List<IntPair> snake, IntPair feed)
         {
-            grid.SetValue(1, snake[0].y, snake[0].x);
-            grid.SetValue(1, snake[1].y, snake[1].x);
-            grid.SetValue(2, feed.y, feed.x);
+            grid.SetValue(1, snake[0].Y, snake[0].X);
+            grid.SetValue(1, snake[1].Y, snake[1].X);
+            grid.SetValue(2, feed.Y, feed.X);
         }
     }
 }
