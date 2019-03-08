@@ -36,13 +36,17 @@ namespace SnakeGame
     class Program
     {
         static readonly public int maxSize = 30;
-        static readonly internal int defaultSpeed = 240;
-        static readonly internal int speedUp = defaultSpeed / maxSize;
-        static internal int curSpeed;
+        static readonly public int defaultSpeed = 240;
+        static readonly public int speedUp = defaultSpeed / maxSize;
+        static int curSpeed;
+        public enum Status
+        {
+            Title, Playing, Clear, GameOver
+        }
 
         static void Main()
         {
-            var status = 0;
+            var status = Status.Title;
             var view = new View();
             var coord = new Coord();
             
@@ -51,15 +55,15 @@ namespace SnakeGame
             Console.ReadKey(true);
 
             //開始処理
-            status = 1;
+            status = Status.Playing;
             curSpeed = defaultSpeed;
             coord.SetFeed();
             view.ToStart(coord.MoveSnake(), coord.ReturnFeed());
 
             //メイン処理
-            Task.Run(() => { while (status == 1) { coord.ChangeDirection(); } });
+            Task.Run(() => { while (status == Status.Playing) { coord.ChangeDirection(); } });
 
-            while (status == 1)
+            while (status == Status.Playing)
             {
                 Console.Clear();
                 view.Draw((maxSize * speedUp - curSpeed) / speedUp + 2, maxSize);
@@ -70,10 +74,10 @@ namespace SnakeGame
             //ゲームクリアまたはゲームオーバー処理
             switch (status)
             {
-                case 2:
+                case Status.GameOver:
                     GameOver();
                     break;
-                case 3:
+                case Status.Clear:
                     Console.Clear();
                     view.Draw((maxSize * speedUp - curSpeed) / speedUp + 2, maxSize);
                     GameClear();
