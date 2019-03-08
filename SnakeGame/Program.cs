@@ -61,8 +61,8 @@ namespace SnakeGame
             view.ToStart(coord.MoveSnake(), coord.ReturnFeed());
 
             //メイン処理
-            Task.Run(() => { while (status == Status.Playing) { coord.ChangeDirection(); } });
-
+            Task.Run(() => { while (true) { coord.CatchInput(); } });
+        
             while (status == Status.Playing)
             {
                 Console.Clear();
@@ -77,18 +77,12 @@ namespace SnakeGame
                     case Status.GameOver:
                         Console.ForegroundColor = System.ConsoleColor.Red;
                         Console.WriteLine("  GAME OVER");
-                        view = null;
-                        coord = null;
-                        SystemMessage();
                         break;
                     case Status.Clear:
                         Console.Clear();
                         view.Draw((maxSize * speedUp - curSpeed) / speedUp + 2, maxSize);
                         Console.ForegroundColor = System.ConsoleColor.Blue;
                         Console.WriteLine("  GAME CLEAR");
-                        view = null;
-                        coord = null;
-                        SystemMessage();
                         break;
                     default:
                         Console.WriteLine("えっ");
@@ -97,22 +91,13 @@ namespace SnakeGame
                         break;
                 }
             }
-        }
 
-        public static void SpeedUp()
-        {
-            curSpeed -= speedUp;
-        }
-        
-        public static void SystemMessage()
-        {
             Console.ForegroundColor = System.ConsoleColor.White;
             Console.WriteLine("Press ENTER to restart.");
             Console.WriteLine("Press ESC to quit.");
 
         Select:
-            ConsoleKeyInfo input = Console.ReadKey();
-            switch (input.Key)
+            switch (coord.Input.Key)
             {
                 case ConsoleKey.Enter:
                     Console.Clear();
@@ -123,6 +108,11 @@ namespace SnakeGame
                 default:
                     goto Select;
             }
+        }
+
+        public static void SpeedUp()
+        {
+            curSpeed -= speedUp;
         }
     }
 }

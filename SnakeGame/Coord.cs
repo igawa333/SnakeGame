@@ -14,15 +14,16 @@ namespace SnakeGame
         IntPair feed = new IntPair(0, 0);
         IntPair direction = new IntPair(1, 0);
         List<IntPair> snake = new List<IntPair> { new IntPair(0, 0), new IntPair(0, 0), new IntPair(0, 0) };
+        public ConsoleKeyInfo Input { get; private set; }
                 
-        //入力を待ち受けてdirectionを書き換える
-        public void ChangeDirection()
+        //蛇の進行方向&リスタート時のキー入力待ち受け
+        public void CatchInput()
         {
-            ConsoleKeyInfo input = Console.ReadKey(true);
+            Input = Console.ReadKey(true);
             
             if (head.X - snake[1].X == 0)   //今の方向によって受け付ける入力を切り替える
             {
-                switch (input.Key)
+                switch (Input.Key)
                 {
                     case ConsoleKey.RightArrow:
                         direction.Set(1, 0);
@@ -35,7 +36,7 @@ namespace SnakeGame
             }
             else if(head.Y - snake[1].Y == 0)
             {
-                switch (input.Key)
+                switch (Input.Key)
                 {
                     case ConsoleKey.UpArrow:
                         direction.Set(0, -1);
