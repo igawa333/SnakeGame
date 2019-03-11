@@ -12,7 +12,6 @@ namespace SnakeGame
         static public readonly int x = 15;
         static public readonly int y = 15;
         int[,] grid = new int[y, x];
-        public int a = 0;
 
         //画面描画
         public void Draw(int curLevel, int maxLevel)
@@ -73,6 +72,7 @@ namespace SnakeGame
 
         public void Title()
         {
+            Console.Clear();
             Console.WriteLine("■■■■■■■■■■■■■■■■■");
             for (int y = 0; y < grid.GetLength(0); y++)
             {
@@ -81,7 +81,7 @@ namespace SnakeGame
                 {
                     if (y == 7)
                     {
-                        Console.Write("　　Push any key to start.　　");
+                        Console.Write("　　 Push ENTER to start. 　　");
                         break;
                     }
                     else
@@ -96,6 +96,13 @@ namespace SnakeGame
 
         public void ToStart(List<IntPair> snake, IntPair feed)
         {
+            for (int y = 0; y < grid.GetLength(0); y++)
+            {
+                for (int x = 0; x < grid.GetLength(1); x++)
+                {
+                    grid[y, x] = 0;
+                }
+            }
             grid.SetValue(1, snake[0].Y, snake[0].X);
             grid.SetValue(1, snake[1].Y, snake[1].X);
             grid.SetValue(2, feed.Y, feed.X);
