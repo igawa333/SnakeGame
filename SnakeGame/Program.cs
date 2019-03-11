@@ -49,64 +49,57 @@ namespace SnakeGame
             var status = Status.Title;
             var view = new View();
             var coord = new Coord();
-
-            //タイトル画面
-            view.Title();
-            Console.ReadKey(true);
-
-            //開始処理
-            status = Status.Playing;
-            curSpeed = defaultSpeed;
-            coord.SetFeed();
-            view.ToStart(coord.MoveSnake(), coord.ReturnFeed());
-
-            //メイン処理
             Task.Run(() => { while (true) { coord.CatchInput(); } });
-        
-            while (status == Status.Playing)
+            
+            while (status == Status.Playing || status == Status.Title)
             {
-                Console.Clear();
-                view.Draw((maxSize * speedUp - curSpeed) / speedUp + 2, maxSize);
-                Thread.Sleep(curSpeed);
-                status = view.UpdateGrid(coord.MoveSnake(), coord.ReturnFeed());
+                if(status == Status.Playing)
+                {
+                    Console.Clear();
+                    view.Draw((maxSize * speedUp - curSpeed) / speedUp + 2, maxSize);
+                    Thread.Sleep(curSpeed);
+                    status = view.UpdateGrid(coord.MoveSnake(), coord.ReturnFeed());
+                }
 
                 switch (status)
                 {
-                    case Status.Playing:
+                    case Status.Title:
+                        view.Title();
+                        while (coord.Input.Key != ConsoleKey.Enter) { };
+                        //開始処理
+                        status = Status.Playing;
+                        curSpeed = defaultSpeed;
+                        coord.SetFeed();
+                        view.ToStart(coord.MoveSnake(), coord.ReturnFeed());
                         break;
+
                     case Status.GameOver:
                         Console.ForegroundColor = System.ConsoleColor.Red;
                         Console.WriteLine("  GAME OVER");
-                        break;
+                        goto Finish;
                     case Status.Clear:
                         Console.Clear();
                         view.Draw((maxSize * speedUp - curSpeed) / speedUp + 2, maxSize);
                         Console.ForegroundColor = System.ConsoleColor.Blue;
                         Console.WriteLine("  GAME CLEAR");
-                        break;
-                    default:
-                        Console.WriteLine("えっ");
-                        Console.WriteLine(status);
-                        Thread.Sleep(5000);
+                    Finish:
+                        Console.ForegroundColor = System.ConsoleColor.White;
+                        Console.WriteLine("Press ENTER to restart.");
+                        Console.WriteLine("Press ESC to quit.");
+                    Select:
+                        switch (coord.Input.Key)
+                        {
+                            case ConsoleKey.Enter:
+                                status = Status.Title;
+                                coord.Reset();
+                                break;
+                            case ConsoleKey.Escape:
+                                return;
+                            default:
+                                goto Select;
+                        }
                         break;
                 }
-            }
-
-            Console.ForegroundColor = System.ConsoleColor.White;
-            Console.WriteLine("Press ENTER to restart.");
-            Console.WriteLine("Press ESC to quit.");
-
-        Select:
-            switch (coord.Input.Key)
-            {
-                case ConsoleKey.Enter:
-                    Console.Clear();
-                    Main();
-                    return;
-                case ConsoleKey.Escape:
-                    return;
-                default:
-                    goto Select;
             }
         }
 

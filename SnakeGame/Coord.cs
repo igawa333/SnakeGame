@@ -48,7 +48,7 @@ namespace SnakeGame
                 }
             }
         }
-
+        
         public void SetFeed()
         {
             feed.Set(rand.Next(1, View.x), rand.Next(1, View.y));
@@ -86,6 +86,16 @@ namespace SnakeGame
         public void AddBody(int x, int y)
         {
             snake.Add(new IntPair(x, y));
+        }
+
+        public void Reset()
+        {
+            head.Set(0, 0);
+            feed.Set(0, 0);
+            direction.Set(1, 0);
+            snake.Clear();
+            snake = new List<IntPair> { new IntPair(0, 0), new IntPair(0, 0), new IntPair(0, 0) };
+            Input = new ConsoleKeyInfo();
         }
     }
 }
