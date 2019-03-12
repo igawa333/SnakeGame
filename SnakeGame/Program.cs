@@ -38,7 +38,7 @@ namespace SnakeGame
         static readonly public int maxSize = 30;
         static readonly public int defaultSpeed = 240;
         static readonly public int speedUp = defaultSpeed / maxSize;
-        static int curSpeed;
+        static int curSpeed = defaultSpeed;
         public enum Status
         {
             Title, Playing, Clear, GameOver
